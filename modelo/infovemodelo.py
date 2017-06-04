@@ -15,10 +15,18 @@ import pycurl
 
 
 class Error(Exception):
+    """
+    Para buenas práticas
+    """
+
     pass
 
 
 class ConsultaError(Error):
+    """
+    Para lanzar excepciones de usuario
+    """
+
     pass
 
 
@@ -29,6 +37,10 @@ class Cantv(object):
         self.consulta = {}
 
     def obtenerDeuda(self, area, telefono):
+        """
+        Consulta datos en CANTV mediante pyCURL y técnicas de scrapping
+        """
+
         url = "http://www.cantv.com.ve/seccion.asp?pid=1&sid=450"
         parametros = "sarea=%s&stelefono=%s" % (area, telefono)
 
@@ -77,5 +89,8 @@ class Cantv(object):
         return self.consulta
 
     def setHTML(self, data):
-        self.html += data
+        """
+        Método privado. Hacia acá se redirige la escritura del buffer
+        """
 
+        self.html += data

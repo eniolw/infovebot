@@ -19,6 +19,10 @@ class VistaHome(object):
 
     @classmethod
     def verStart(self, update):
+        """
+        Vista del comando start
+        """
+
         m = '¡Hola! Soy un bot para consultar información de algunos servicios de Venezuela. Por ahora sólo consulto datos en CANTV.'
         m += "\nUsa el comando buscar así: <code>/buscar código número </code>"
         m += "\n\nEjemplo: <i>/buscar 268 5552525</i>"
@@ -29,6 +33,10 @@ class VistaHome(object):
 
     @classmethod
     def verError(self, update):
+        """
+        Vista de error en el sistema
+        """
+
         update.message.reply_text("Se produjo un error en el sistema. Intente luego", parse_mode="HTML")
 
 
@@ -36,6 +44,10 @@ class VistaCantv(object):
 
     @classmethod
     def verConsultaInline(self, update, data):
+        """
+        Vista de la búsqueda en CANTV por petición inline
+        """
+
         men = "Consulta del servicio telefónico CANTV"
 
         if data["respuesta"]:
@@ -56,6 +68,10 @@ class VistaCantv(object):
 
     @classmethod
     def verConsulta(self, update, data):
+        """
+        Vista de la búsqueda en CANTV por el comando buscar
+        """
+
         men = "<b>Consulta del servicio telefónico CANTV</b>"
 
         if data["respuesta"]:
@@ -72,5 +88,9 @@ class VistaCantv(object):
 
     @classmethod
     def verConsultaErronea(self, update):
+        """
+        Vista de la validación de la entrada (caso Cantv->buscar)
+        """
+
         update.message.reply_text("<b>Consulta inválida</b>\nDeben ser números compuestos por 10 dígitos.\nLa sintaxis debe ser: XXX XXXXXXX siendo 'X' cualquier dígito. Ejemplo: 268 5552525",
                                   parse_mode="HTML")
