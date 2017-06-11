@@ -36,7 +36,7 @@ def help(bot, update):
 
 def consultarCantv(bot, update, args):
     """
-    Controlador del comando buscar para consultar datos en Cantv
+    Controlador del comando para consultar datos en Cantv
     """
 
     cadena = "".join(args)
@@ -58,7 +58,7 @@ def consultarCantv(bot, update, args):
 
 def consultarIvss(bot, update, args):
     """
-    Controlador del comando buscar para consultar datos en Ivss
+    Controlador del comando para consultar datos en Ivss
     """
 
     if not len(args) == 2 \

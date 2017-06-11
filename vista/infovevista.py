@@ -21,7 +21,7 @@ class VistaHome(object):
     @classmethod
     def verStart(self, update):
         """
-        Vista del comando start
+        Vista del comando /start (y provisionalmente /help)
         """
 
         m = "¡Hola! Soy un bot para consultar información de algunos servicios "
@@ -77,7 +77,7 @@ class VistaCantv(object):
     @classmethod
     def verConsulta(self, update, data):
         """
-        Vista de la búsqueda en CANTV por el comando buscar
+        Vista de la búsqueda en CANTV por el comando /cantv
         """
 
         men = "<b>Consulta del servicio telefónico CANTV</b>"
@@ -121,7 +121,7 @@ class VistaIvss(object):
     @classmethod
     def verConsulta(self, update, data):
         """
-        Vista de la búsqueda en IVSS por el comando buscar
+        Vista de la búsqueda en IVSS por el comando /ivss
         """
 
         men = "<b>Consulta del Seguro Social</b>"
