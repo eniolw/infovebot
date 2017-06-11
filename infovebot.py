@@ -12,8 +12,9 @@ https://github.com/willicab/infove-api por William Cabrera
 """
 
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler
-from modelo.infovemodelo import Cantv, ConsultaError
-from vista.infovevista import VistaHome, VistaCantv
+from modelo.infovemodelo import Cantv, Ivss, ConsultaError
+from vista.infovevista import VistaHome, VistaCantv, VistaIvss
+from util.util import fechaValida
 import re
 
 
@@ -40,7 +41,7 @@ def consultarCantv(bot, update, args):
 
     cadena = "".join(args)
 
-    if len(cadena) != 10 or not re.match("\d\d\d\d\d\d\d\d\d", cadena):
+    if not re.match("^[0-9]{3}[0-9]{7}$", cadena):
         VistaCantv.verConsultaErronea(update)
         return
 
@@ -55,6 +56,34 @@ def consultarCantv(bot, update, args):
     VistaCantv.verConsulta(update, resultados)
 
 
+def consultarIvss(bot, update, args):
+    """
+    Controlador del comando buscar para consultar datos en Ivss
+    """
+
+    if not len(args) == 2 \
+    or not re.match("^[V|E|T|v|e|t][0-9]{6,8}$", args[0]) \
+    or not fechaValida(args[1]):
+
+        VistaIvss.verConsultaErronea(update)
+        return
+
+    ivss = Ivss()
+
+    try:
+        resultados = ivss.obtenerCuenta(args[0][0],
+                                        args[0][1:],
+                                        args[1][0:2],
+                                        args[1][3:5],
+                                        args[1][6:10])
+
+    except ConsultaError:
+        VistaHome.verError(update)
+        return
+
+    VistaIvss.verConsulta(update, resultados)
+
+
 def inlinequery(bot, update):
     """
     Controlador de las peticiones inline. Por ahora sólo gestiona la consulta
@@ -63,12 +92,10 @@ def inlinequery(bot, update):
 
     query = update.inline_query.query
 
-    if not len(query) == 11 or not re.match("\d\d\d\s\d\d\d\d\d\d", query):
+    if not re.match("^[0-9]{3} [0-9]{7}$", query):
         return
 
     partes = query.split()
-    if len(partes) != 2:
-        return
 
     cantv = Cantv()
     try:
@@ -89,7 +116,8 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("buscar", consultarCantv, pass_args=True))
+    dp.add_handler(CommandHandler("cantv", consultarCantv, pass_args=True))
+    dp.add_handler(CommandHandler("ivss", consultarIvss, pass_args=True))
     dp.add_handler(InlineQueryHandler(inlinequery))
     updater.start_polling()
     updater.idle()
