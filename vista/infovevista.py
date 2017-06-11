@@ -12,6 +12,7 @@ https://github.com/willicab/infove-api por William Cabrera
 """
 
 from telegram import InlineQueryResultArticle, InputTextMessageContent
+from util.util import aUnicode
 from uuid import uuid4
 
 
@@ -126,18 +127,19 @@ class VistaIvss(object):
         men = "<b>Consulta del Seguro Social</b>"
 
         if data["respuesta"]:
-            men += "\n\nCédula: <b>%s</b>" % data["cedula"]
-            men += "\nNombre: <b>%s</b>" % data["nombre"]
-            men += "\nSexo: <b>%s</b>" % data["sexo"]
-            men += "\nFecha de nacimiento: <b>%s</b>" % data["nacimiento"]
-            men += "\nNúmero patronal: <b>%s</b>" % data["numeropatronal"]
-            men += "\nEmpresa: <b>%s</b>" % data["empresa"]
-            men += "\nIngreso: <b>%s</b>" % data["ingreso"]
-            men += "\nEstatus del asegurado: <b>%s</b>" % data["estatus"]
-            men += "\nPrimera afiliación: <b>%s</b>" % data["afiliacion"]
-            men += "\nContingencia: <b>%s</b>" % data["contingencia"]
-            men += "\nSemanas cotizadas: <b>%s</b>" % data["semanas"]
-            men += "\nTotal salarios cotizados: <b>Bs. %s</b>" % data["salarios"]
+            men += "\n\nCédula: <b>%s</b>" % aUnicode(data["cedula"])
+            men += "\nNombre: <b>%s</b>" % aUnicode(data["nombre"])
+            men += "\nSexo: <b>%s</b>" % aUnicode(data["sexo"])
+            men += "\nFecha de nacimiento: <b>%s</b>" % aUnicode(data["nacimiento"])
+            men += "\n\nNúmero patronal: <b>%s</b>" % aUnicode(data["numeropatronal"])
+            men += "\nEmpresa: <b>%s</b>" % aUnicode(data["empresa"])
+            men += "\nIngreso: <b>%s</b>" % aUnicode(data["ingreso"])
+            men += "\nEstatus del asegurado: <b>%s</b>" % aUnicode(data["estatus"])
+            men += "\nPrimera afiliación: <b>%s</b>" % aUnicode(data["afiliacion"])
+            men += "\nContingencia: <b>%s</b>" % aUnicode(data["contingencia"])
+            men += "\nSemanas cotizadas: <b>%s</b>" % aUnicode(data["semanas"])
+            men += "\nTotal salarios cotizados: <b>Bs. %s</b>" % aUnicode(data["salarios"])
+
         else:
             men += "\n\nNo produjo ningún resultado"
 
