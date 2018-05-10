@@ -11,7 +11,7 @@ Información Venezuela ya se encuentra funcionando en Telegram con la cuenta @in
 
 ```
 sudo pip install pycurl
-sudo pip install python-telegram-bot==6.0.3
+sudo pip install python-telegram-bot
 ```
 
 * Descarga el código desde mi [repositorio en Github](https://github.com/eniolw/infovebot)
@@ -22,7 +22,7 @@ sudo pip install python-telegram-bot==6.0.3
 # Reconocimientos
 @infovebot es un proyecto iniciado por Oniel Revilla Morón (correo: eniolw@gmail.com; Telegram: @eniolw) y dedicado a la [`ComunidadNaciente de software libre de Venezuela`](https://t.me/ComunidadNaciente) y todos los usuarios de Telegram.
 
-En este proyecto se han portado y modificado scripts de William Cabrera (<cabrerawilliam@gmail.com> https://github.com/willicab/infove-api) y se han utilizado las bibliotecas [`python-telegram-bot`](https://github.com/python-telegram-bot/python-telegram-bot)
+En este proyecto se ha creado un módulo `infove-api` que es un porting parcial de los scripts de William Cabrera (<cabrerawilliam@gmail.com> https://github.com/willicab/infove-api). También se han utilizado las bibliotecas [`python-telegram-bot`](https://github.com/python-telegram-bot/python-telegram-bot)
 y `pycurl`.
 
 Agradecimientos a Riztan Gutiérrez (Telegram: @riztan) por hospedar a @infovebot.
