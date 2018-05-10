@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-"""
-Copyright 2017 Oniel Revilla Morón (eniolw@gmail.com)
-Bot de Telegram para la consultar información de servicios de Venezuela.
+# 
+# Este archivo es parte del módulo infove-api.
+# Copyright (C) 2017-2018 Oniel Revilla Morón <eniolw@gmail.com>
+# 
+# Este software ha sido liberado bajo los términos de la licencia GNU AGPL 3.0
+# (véase: https://www.gnu.org/licenses/agpl-3.0.html)
+# 
+"""Un módulo para el acceso a la data de servicios públicos como Cantv e Ivss.
+Emula el funcionamiento de una API para estos sitios aplicando web scrapping. 
+Algunas clases de este módulo contienen porting a Python de algunos scripts 
+escritos por William Cabrera <cabrerawilliam@gmail.com> en PHP. Para más 
+información, véase: https://github.com/willicab/infove-api."""
 
-Este software ha sido liberado bajo los términos de la licencia GNU AGPL 3.0
-(véase: https://www.gnu.org/licenses/agpl-3.0.html)
-
-Para la construcción de este bot se han portado y modificado algunos scripts de
-https://github.com/willicab/infove-api por William Cabrera
-<cabrerawilliam@gmail.com>
-"""
 
 import pycurl
 
@@ -36,7 +38,7 @@ class Cantv(object):
         self.html = ""
         self.consulta = {}
 
-    def obtenerDeuda(self, area, telefono):
+    def obtener_deuda(self, area, telefono):
         """
         Consulta datos en CANTV mediante pyCURL y técnicas de scraping
         """
@@ -50,7 +52,7 @@ class Cantv(object):
             c.setopt(c.POSTFIELDS, parametros)
             c.setopt(c.REFERER, "http://www.cantv.com.ve")
             c.setopt(c.USERAGENT, 'Mozilla/5.0 (X11; Linux i686; rv:32.0) Gecko/20100101 Firefox/40.0')
-            c.setopt(pycurl.WRITEFUNCTION, self.setHTML)
+            c.setopt(pycurl.WRITEFUNCTION, self.set_html)
             c.setopt(c.FRESH_CONNECT, 1)
             c.setopt(c.CONNECTTIMEOUT, 50)
             c.setopt(c.TIMEOUT, 300)
@@ -64,19 +66,19 @@ class Cantv(object):
             self.consulta["saldo"] = self.html[pos1:self.html.find("</font>", pos1)]
 
             pos1 = self.html.index("Fecha de &uacute;ltima facturaci&oacute;n:") + 132
-            self.consulta["ultimaFacturacion"] = self.html[pos1:self.html.find("</font>", pos1)]
+            self.consulta["ultima_facturacion"] = self.html[pos1:self.html.find("</font>", pos1)]
 
             pos1 = self.html.index("Fecha corte:") + 102
-            self.consulta["fechaCorte"] = self.html[pos1:self.html.find("</font>", pos1)]
+            self.consulta["fecha_corte"] = self.html[pos1:self.html.find("</font>", pos1)]
 
             pos1 = self.html.index("Fecha de vencimiento:") + 111
-            self.consulta["fechaVencimiento"] = self.html[pos1:self.html.find("</font>", pos1)]
+            self.consulta["fecha_vencimiento"] = self.html[pos1:self.html.find("</font>", pos1)]
 
             pos1 = self.html.index("Saldo vencido:") + 116
-            self.consulta["saldoVencido"] = self.html[pos1:self.html.find("</font>", pos1)]
+            self.consulta["saldo_vencido"] = self.html[pos1:self.html.find("</font>", pos1)]
 
             pos1 = self.html.index("Monto del &uacute;ltimo pago realizado:") + 130
-            self.consulta["ultimoPago"] = self.html[pos1:self.html.find("</font>", pos1)]
+            self.consulta["ultimo_pago"] = self.html[pos1:self.html.find("</font>", pos1)]
 
         except ValueError:
             return {"respuesta": False}
@@ -88,7 +90,7 @@ class Cantv(object):
         self.consulta["respuesta"] = True
         return self.consulta
 
-    def setHTML(self, data):
+    def set_html(self, data):
         """
         Método privado. Hacia acá se redirige la escritura del buffer
         """
@@ -102,7 +104,7 @@ class Ivss(object):
         self.html = ""
         self.consulta = {}
 
-    def obtenerCuenta(self, nacionalidad, cedula, dia, mes, anio):
+    def obtener_cuenta(self, nacionalidad, cedula, dia, mes, anio):
         """
         Consulta datos en IVSS mediante pyCURL y técnicas de scraping
         """
@@ -117,7 +119,7 @@ class Ivss(object):
             c.setopt(c.POSTFIELDS, parametros)
             c.setopt(c.REFERER, "http://ivss.gov.ve")
             c.setopt(c.USERAGENT, 'Mozilla/5.0 (X11; Linux i686; rv:32.0) Gecko/20100101 Firefox/40.0')
-            c.setopt(pycurl.WRITEFUNCTION, self.setHTML)
+            c.setopt(pycurl.WRITEFUNCTION, self.set_html)
             c.setopt(c.FRESH_CONNECT, 1)
             c.setopt(c.CONNECTTIMEOUT, 5)
             c.setopt(c.TIMEOUT, 10)
@@ -140,7 +142,7 @@ class Ivss(object):
             self.consulta["nacimiento"] = self.html[pos1:self.html.find('<', pos1)].strip()
 
             pos1 = self.html.find('#000000">', self.html.index("Patronal")) + 9
-            self.consulta["numeropatronal"] = self.html[pos1:self.html.find('<', pos1)].strip()
+            self.consulta["numero_patronal"] = self.html[pos1:self.html.find('<', pos1)].strip()
 
             pos1 = self.html.find('#000000">', self.html.index("Empresa")) + 9
             self.consulta["empresa"] = self.html[pos1:self.html.find('<', pos1)].strip()
@@ -173,9 +175,20 @@ class Ivss(object):
         self.consulta["respuesta"] = True
         return self.consulta
 
-    def setHTML(self, data):
+    def set_html(self, data):
         """
         Método privado. Hacia acá se redirige la escritura del buffer
         """
 
         self.html += data
+
+
+class InfoveApi(object):
+
+    
+    def __init__(self):
+        self.cantv = Cantv()
+        self.ivss = Ivss()
+
+
+infove_api = InfoveApi()

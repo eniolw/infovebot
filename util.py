@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
+# 
+# Copyright (C) 2017-2018 Oniel Revilla Morón <eniolw@gmail.com>
+# 
+# Este software ha sido liberado bajo los términos de la licencia GNU AGPL 3.0
+# (véase: https://www.gnu.org/licenses/agpl-3.0.html)
+# 
+"""Bot de Telegram para la consulta información de servicios públicos 
+de Venezuela."""
 
 
-def fechaValida(fecha):
+def fecha_valida(fecha):
     """
     Para validar la fecha ingresada
     """
@@ -15,10 +23,11 @@ def fechaValida(fecha):
     except:
         return False
 
-    return True
+    else:
+        return True
 
 
-def aUnicode(obj):
+def a_unicode(obj):
     """
     Para facilitar la conversión a utf-8 en python 2.7
     """
